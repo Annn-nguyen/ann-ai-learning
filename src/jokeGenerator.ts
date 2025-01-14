@@ -45,14 +45,12 @@ import { z } from "zod";
 
     const generateTopics = async (state: typeof OverallState.State): Promise<Partial<typeof OverallState.State>> => {
         const prompt = subjectsPrompt.replace("{topic}", state.topic);
-        // @ts-ignore
         const response = await llm.withStructuredOutput(Subjects, { name: "subjects" }).invoke(prompt);
         return { subjects: response.subjects };
     };
 
     const generateJoke = async (state: JokeState): Promise<{ jokes: string[] }> => {
         const prompt = jokePrompt.replace("subject", state.subject);
-        // @ts-ignore
         const response = await llm.withStructuredOutput(Joke, { name: "joke" }).invoke(prompt);
         return { jokes: [response.joke] };
     };
@@ -66,7 +64,6 @@ import { z } from "zod";
         const prompt = bestJokePrompt
             .replace("jokes", jokes)
             .replace("{topic}", state.topic);
-        // @ts-ignore
         const response = await llm.withStructuredOutput(BestJoke, { name: "best_joke" }).invoke(prompt);
         return { bestSelectedJoke: state.jokes[response.id] };
     }
